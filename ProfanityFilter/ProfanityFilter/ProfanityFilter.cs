@@ -121,7 +121,8 @@ namespace ProfanityFilter
             sentence = sentence.Replace(".", "");
             sentence = sentence.Replace(",", "");
 
-            var words = sentence.Split(' ');
+            // Split the string on spaces and newlines
+            var words = sentence.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
             var postAllowList = FilterWordListByAllowList(words);
             List<string> swearList = new List<string>();
 
@@ -180,7 +181,8 @@ namespace ProfanityFilter
 
             noPunctuation = Regex.Replace(noPunctuation, @"[^\w\s]", "");
 
-            var words = noPunctuation.Split(' ');
+            // Split the string on spaces and newlines
+            var words = noPunctuation.Split(new[] { ' ', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
 
             var postAllowList = FilterWordListByAllowList(words);
             var swearList = new List<string>();
@@ -225,7 +227,7 @@ namespace ProfanityFilter
                 // Work backwards in string to get to the start of the word.
                 while (startIndex > 0)
                 {
-                    if (toCheck[startIndex - 1] == ' ' || char.IsPunctuation(toCheck[startIndex - 1]))
+                    if (toCheck[startIndex - 1] == ' ' || toCheck[startIndex - 1] == '\n' || toCheck[startIndex - 1] == '\r' || char.IsPunctuation(toCheck[startIndex - 1]))
                     {
                         break;
                     }
@@ -236,7 +238,7 @@ namespace ProfanityFilter
                 // Work forwards to get to the end of the word.
                 while (endIndex < toCheck.Length)
                 {
-                    if (toCheck[endIndex] == ' ' || char.IsPunctuation(toCheck[endIndex]))
+                    if (toCheck[endIndex] == ' ' || toCheck[endIndex] == '\n' || toCheck[endIndex] == '\r' || char.IsPunctuation(toCheck[endIndex]))
                     {
                         break;
                     }

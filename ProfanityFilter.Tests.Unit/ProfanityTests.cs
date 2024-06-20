@@ -390,6 +390,52 @@ namespace ProfanityFilter.Tests.Unit
             Assert.AreEqual(censored, result);
         }
 
+        [TestMethod]
+        public void CensoredStringReturnsStringWithProfanitiesBleepedOutMultiLine()
+        {
+            var filter = new ProfanityFilter();
+            filter.AllowList.Add("scunthorpe");
+            filter.AllowList.Add("penistone");
+
+            var censored = filter.CensorString("I fucking live in Scunthorpe and it is a shit place to live. I would much rather live in penistone you great big\ncock\r\nfuck.", '*');
+            var result = "I ******* live in Scunthorpe and it is a **** place to live. I would much rather live in penistone you great big\n****\r\n****.";
+
+            Assert.AreEqual(censored, result);
+        }
+
+        [TestMethod]
+        public void CensoredStringReturnsStringWithProfanitiesBleepedOutMultiLine2()
+        {
+            var filter = new ProfanityFilter();
+
+            var censored = filter.CensorString("2 girls 1 cup, is my favourite twatting\ntwat\r\n video.");
+            var result = "* ***** * ***, is my favourite ********\n****\r\n video.";
+
+            Assert.AreEqual(censored, result);
+        }
+
+        [TestMethod]
+        public void CensoredStringReturnsStringWithProfanitiesBleepedOutMultiLine3()
+        {
+            var filter = new ProfanityFilter();
+
+            var censored = filter.CensorString("Mary had a\r\n little shit lamb who was a little \r\nfucker\r\n.");
+            var result = "Mary had a\r\n little **** lamb who was a little \r\n******\r\n.";
+
+            Assert.AreEqual(censored, result);
+        }
+
+        [TestMethod]
+        public void CensoredStringReturnsStringWithProfanitiesBleepedOutMultiLine4()
+        {
+            var filter = new ProfanityFilter();
+
+            var censored = filter.CensorString("You are a \nstupid little twat\n, and you like to blow your load in an alaskan\r\npipeline.");
+            var result = "You are a \n****** little ****\n, and you like to **** **** **** in an alaskan\r\npipeline.";
+
+            Assert.AreEqual(censored, result);
+        }
+
 
         [TestMethod]
         public void CensoredStringReturnsStringWithSingleScunthorpe()
